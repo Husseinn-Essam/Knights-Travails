@@ -12,10 +12,6 @@ const moves = [
     [2, -1]
   ];
 
-function getNeighbor(curr)
-{
-    
-}  
 
 //check if we reached destination
 function reachedDest(node,dx,dy)
@@ -26,33 +22,51 @@ function reachedDest(node,dx,dy)
     return false;
 }
 
-function getShortestPath([sx,sy],[dx,dy]){
-    const pathQ = new Queue();
-    let startNode = new Node(sx,sy,0);
-    pathQ.enqueue(startNode);
-    const visited = new Set();
-    while (pathQ.size() > 0){
-        const curr = pathQ.dequeue();
-        //process node
-        if(reachedDest(curr,dx,dy))
-        {
-            return curr.distance;
-        }
-        //getting neighbors
-        for(let i = 0; i<8 ; i++ ){
-            const newRow = curr.row + moves[i][0];
-            const newCol = curr.col + moves[i][1];
-            if (newRow < 7 && newCol < 7 && newRow > 0 && newCol > 0) {
-                const neighbor = new Node(newRow,newCol,(curr.distance)+1);
-                if(visited.has(neighbor.getPosition())) continue
-                pathQ.enqueue(neighbor);                
-            }
 
-        }
-          
+  
+function getShortestPath([sx, sy], [dx, dy]) {
+  const pathQ = new Queue();
+  let startNode = new Node(sx, sy, 0);
+  pathQ.enqueue(startNode);
+  let prev = [...Array(8)].map(() => Array(8).fill(0));
+  const visited = new Set();
 
+  while (pathQ.size() > 0) {
+    const curr = pathQ.dequeue();
+
+    if (reachedDest(curr, dx, dy)) {
+      return reconstructPath(prev, dx, dy, sx, sy);
     }
+
+    for (let i = 0; i < 8; i++) {
+      const newRow = curr.row + moves[i][0];
+      const newCol = curr.col + moves[i][1];
+      if (newRow < 8 && newCol < 8 && newRow >= 0 && newCol >= 0) {
+        const neighbor = new Node(newRow, newCol, curr.distance + 1);
+        if (visited.has(neighbor.getPosition())) continue;
+        pathQ.enqueue(neighbor);
+        visited.add(neighbor.getPosition());
+        prev[newRow][newCol] = [curr.row, curr.col];
+      }
+    }
+  }
+
+  // No path found
+  return [];
 }
 
-console.log(getShortestPath([3,3],[4,3]));
+function reconstructPath(prevArr, dx, dy, sx, sy) {
+  let currentLoc = [dx, dy];
+  let path = [];
+  while ((currentLoc[0] !== sx) || (currentLoc[1] !== sy)) {
+    path.unshift(currentLoc);
+    currentLoc = prevArr[currentLoc[0]][currentLoc[1]];
+  }
+  path.unshift([sx, sy]);
+  return path;
+}
+
+
+
+module.exports = { getShortestPath };
 
