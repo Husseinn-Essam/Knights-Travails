@@ -51,7 +51,10 @@ function handleCellClick(event) {
       // Create the knight element
       const knightIcon = document.createElement('i');
       knightIcon.classList.add('fa-solid', 'fa-chess-knight');
+      knightIcon.style.display = 'none';
       cell.appendChild(knightIcon)
+      moveKnightInitial();
+      knightIcon.style.display = 'block';
     } else if (isSettingEnd) {
       if (endPos) {
         // Remove active state from the previous end cell
@@ -112,52 +115,76 @@ clearPath();
 }
 
 function clearPath() {
-const pathCells = document.querySelectorAll('.pathCell');
-pathCells.forEach(cell => {
-  cell.classList.remove('pathCell');
-  cell.textContent = '';
-});
+  const pathCells = document.querySelectorAll('.pathCell');
+  pathCells.forEach(cell => {
+    cell.classList.remove('pathCell');
+    cell.textContent = '';
+  });
 }
 
 function getCell(row, col) {
-return document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+  return document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
 }
 
-function animateKnightPath(path) {
-const knightElement = document.querySelector('.fa-chess-knight');
-const delay = 600; // Delay between each step of the animation 
-let timeCount = 0;
+// Move knight to its starting cell , since its positioned absolutely to board;
+function moveKnightInitial(){
+  const knightElement = document.querySelector('.fa-chess-knight');
+  let intialRow , initialCol;
+  [intialRow,initialCol]= startPos;
+  const cell = getCell(intialRow, initialCol);
+  // calculate the translation values for the knight's movement
+  const cellWidth = cell.offsetWidth;
+  const cellHeight = cell.offsetHeight;
+  const translateX = ((initialCol) * cellWidth) ;
+  const translateY = ((intialRow) * cellHeight);
+  
+  // css transform
+  //knightElement.style.transition = `transform ${delay / 1000}s`;
+  knightElement.style.transform = `translate(${translateX}px, ${translateY}px)`;  
 
-// Helper function to animate each step of the knight's movement
+}
+// animation script
 function animateStep(index) {
-if (index >= path.length) {
-  // Animation complete
-  return;
-}
-
-const [row, col] = path[index];
-const cell = getCell(row, col);
-
-// calculate the translation values for the knight's movement
-const cellWidth = cell.offsetWidth;
-const cellHeight = cell.offsetHeight;
-const translateX = col * cellWidth;
-const translateY = row * cellHeight;
-
-// css transform
-knightElement.style.transition = `transform ${delay / 1000}s`;
-knightElement.style.transform = `translate(${translateX}px, ${translateY}px)`;
-
-
-// delay before animating the next step
-setTimeout(() => {
-  animateStep(index + 1);
-}, delay);
-
-}
-
-// Start the animation from the first step
-animateStep(0);
+  const knightElement = document.querySelector('.fa-chess-knight');
+  const delay = 600; // Delay between each step of the animation 
+  
+  if (index >= (path.length)) {
+    // Animation complete
+    return;
+  }
+  
+  let row, col;
+  if (index === 0) {
+    [row, col] = path[index + 1];
+    index++;
+  } else {
+    [row, col] = path[index];
+  }
+  
+  const cell = getCell(row, col);
+  // calculate the translation values for the knight's movement
+  const cellWidth = cell.offsetWidth;
+  const cellHeight = cell.offsetHeight;
+  const translateX = ((col) * cellWidth) ;
+  const translateY = ((row) * cellHeight);
+  
+  // css transform
+  knightElement.style.transition = `transform ${delay / 1000}s`;
+  knightElement.style.transform = `translate(${translateX}px, ${translateY}px)`;
+  
+  
+  // delay before animating the next step
+  setTimeout(() => {
+    animateStep(index + 1);
+  }, delay);
+  
+  }
+  
+//the shortest path animation calls animationStep()
+function animateKnightPath(path) {
+  
+  // Start the animation from the first step
+  animateStep(0);
 }
 
 
