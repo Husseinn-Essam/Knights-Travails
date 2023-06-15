@@ -11,6 +11,7 @@ let isSettingEnd = false;
 let startPos;
 let endPos;
 let path;
+
 function createChessBoard() {
     for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 8; col++) {
@@ -37,12 +38,15 @@ function handleCellClick(event) {
       if (startPos) {
         // Remove active state from the previous start cell
         const prevStartCell = document.querySelector('.startCell');
-        prevStartCell.classList.remove('startCell');
-        const knightIcon = prevStartCell.querySelector('.fa-chess-knight');
-        prevStartCell.classList.add((parseInt(prevStartCell.dataset.row) + parseInt(prevStartCell.dataset.col)) % 2 === 0 ? 'light' : 'dark');
-        if(knightIcon){
-          prevStartCell.removeChild(knightIcon);
-        }
+
+        if(prevStartCell){
+          prevStartCell.classList.remove('startCell');
+          const knightIcon = prevStartCell.querySelector('.fa-chess-knight');
+          prevStartCell.classList.add((parseInt(prevStartCell.dataset.row) + parseInt(prevStartCell.dataset.col)) % 2 === 0 ? 'light' : 'dark');
+          if(knightIcon){
+            prevStartCell.removeChild(knightIcon);
+          }
+        } 
       }
   
       startPos = [row, col];
@@ -61,8 +65,10 @@ function handleCellClick(event) {
       if (endPos) {
         // Remove active state from the previous end cell
         const prevEndCell = document.querySelector('.endCell');
-        prevEndCell.classList.remove('endCell');
-        prevEndCell.classList.add((parseInt(prevEndCell.dataset.row) + parseInt(prevEndCell.dataset.col)) % 2 === 0 ? 'light' : 'dark');
+        if(prevEndCell){
+          prevEndCell.classList.remove('endCell');
+          prevEndCell.classList.add((parseInt(prevEndCell.dataset.row) + parseInt(prevEndCell.dataset.col)) % 2 === 0 ? 'light' : 'dark');
+        }
       }
   
       endPos = [row, col];
@@ -79,12 +85,14 @@ function handleCellClick(event) {
 
 function handleStartButtonClick() {
     // Code to handle start button click
+    if(document.querySelector('.pathCell')) clearPath();
     isSettingEnd= false;
     isSettingStart  = true;
 }
 
 function handleEndButtonClick() {
     // Code to handle end button click
+    if(document.querySelector('.pathCell')) clearPath();
     isSettingStart  = false;
     isSettingEnd = true
 }
@@ -121,17 +129,17 @@ function enumeratePath(){
 }
 
 function handleClearButtonClick() {
-isSettingStart = false;
-isSettingEnd = false;
-startPos = null;
-endPos = null;
+
 clearPath();
 }
 
 function clearPath() {
   const pathCells = document.querySelectorAll('.cell');
   const knightElement = document.querySelector('.fa-chess-knight');
-
+  isSettingStart = false;
+  isSettingEnd = false;
+  startPos = null;
+  endPos = null;
   pathCells.forEach(cell => {
     if (cell.classList.contains('pathCell')) {
       cell.classList.remove('pathCell');
@@ -211,10 +219,6 @@ function animateKnightPath(path,index) {
   
   }
   
-
-
-
-
 
 return {
     init: function() {
