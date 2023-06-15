@@ -51,11 +51,13 @@ function handleCellClick(event) {
       // Create the knight element
       const knightIcon = document.createElement('i');
       knightIcon.classList.add('fa-solid', 'fa-chess-knight');
+      // make knight not display until we move it to initial location
       knightIcon.style.display = 'none';
       cell.appendChild(knightIcon)
       moveKnightInitial();
       knightIcon.style.display = 'block';
-    } else if (isSettingEnd) {
+    } 
+    else if (isSettingEnd) {
       if (endPos) {
         // Remove active state from the previous end cell
         const prevEndCell = document.querySelector('.endCell');
@@ -91,7 +93,8 @@ function handleTravelButtonClick() {
   if (startPos && endPos) {
       path = chessBoard.getShortestPath(startPos, endPos);
       animateKnightPath(path,0);
-    highlightPath();
+      highlightPath()  
+    
   } else {
     console.log("Start and end positions not set.");
   }
@@ -101,8 +104,19 @@ function highlightPath() {
   for (let i = 0; i < path.length; i++) {
     const [row, col] = path[i];
     const cell = getCell(row, col);
+    if(cell.classList.contains('startCell') || cell.classList.contains('endCell')) continue;
     cell.classList.add('pathCell');
-    //cell.textContent = i + 1;
+    
+  }
+}
+
+function enumeratePath(){
+  for(let i = 1 ; i< path.length ; i++){
+     const [row, col] = path[i];
+     const cell = getCell(row, col);
+     if(cell.classList.contains('pathCell')){
+      cell.innerHTML = i;
+   }
   }
 }
 
@@ -150,6 +164,7 @@ function animateKnightPath(path,index) {
   
   if (index >= (path.length)) {
     // Animation complete
+    enumeratePath();
     return;
   }
   
