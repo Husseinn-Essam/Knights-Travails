@@ -90,7 +90,7 @@ function handleEndButtonClick() {
 function handleTravelButtonClick() {
   if (startPos && endPos) {
       path = chessBoard.getShortestPath(startPos, endPos);
-      animateKnightPath(path);
+      animateKnightPath(path,0);
     highlightPath();
   } else {
     console.log("Start and end positions not set.");
@@ -144,7 +144,7 @@ function moveKnightInitial(){
 
 }
 // animation script
-function animateStep(index) {
+function animateKnightPath(path,index) {
   const knightElement = document.querySelector('.fa-chess-knight');
   const delay = 600; // Delay between each step of the animation 
   
@@ -175,17 +175,13 @@ function animateStep(index) {
   
   // delay before animating the next step
   setTimeout(() => {
-    animateStep(index + 1);
+    animateKnightPath(path,index + 1);
   }, delay);
   
   }
   
-//the shortest path animation calls animationStep()
-function animateKnightPath(path) {
-  
-  // Start the animation from the first step
-  animateStep(0);
-}
+
+
 
 
 
