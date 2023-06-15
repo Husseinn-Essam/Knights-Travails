@@ -121,20 +121,37 @@ function enumeratePath(){
 }
 
 function handleClearButtonClick() {
-startBool = false;
-endBool = false;
+isSettingStart = false;
+isSettingEnd = false;
 startPos = null;
 endPos = null;
 clearPath();
 }
 
 function clearPath() {
-  const pathCells = document.querySelectorAll('.pathCell');
+  const pathCells = document.querySelectorAll('.cell');
+  const knightElement = document.querySelector('.fa-chess-knight');
+
   pathCells.forEach(cell => {
-    cell.classList.remove('pathCell');
-    cell.textContent = '';
+    if (cell.classList.contains('pathCell')) {
+      cell.classList.remove('pathCell');
+      cell.textContent = '';
+    }
+    if (cell.classList.contains('startCell')) {
+      cell.classList.remove('startCell');
+      cell.classList.add((parseInt(cell.dataset.row) + parseInt(cell.dataset.col)) % 2 === 0 ? 'light' : 'dark');
+    }
+    if (cell.classList.contains('endCell')) {
+      cell.classList.remove('endCell');
+      cell.classList.add((parseInt(cell.dataset.row) + parseInt(cell.dataset.col)) % 2 === 0 ? 'light' : 'dark');
+    }
   });
+
+  if (knightElement) {
+    knightElement.remove();
+  }
 }
+
 
 function getCell(row, col) {
   return document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
@@ -153,7 +170,6 @@ function moveKnightInitial(){
   const translateY = ((intialRow) * cellHeight);
   
   // css transform
-  //knightElement.style.transition = `transform ${delay / 1000}s`;
   knightElement.style.transform = `translate(${translateX}px, ${translateY}px)`;  
 
 }

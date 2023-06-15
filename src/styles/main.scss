@@ -35,7 +35,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    //position: relative;
     font-size: 2rem;
     font-weight: 700;
     &:hover{
@@ -58,15 +57,14 @@ body {
 .endCell{
     background-color: crimson;
 }
-  .light {
-    background-color: #f0d9b5;
-  }
-  
-  .dark {
-    background-color: #b58863;
-  }
-  .pathCell{
-    background-color: yellow;
-  }
+.light {
+  background-color: #f0d9b5;
+}
 
- 
+.dark {
+  background-color: #b58863;
+}
+.pathCell{
+  background-color: yellow;
+}
+
