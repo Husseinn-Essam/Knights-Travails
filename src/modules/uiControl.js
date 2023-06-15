@@ -1,4 +1,5 @@
 import chessBoard from './chessBoard'
+
 const uiControl = (function() {
 const boardElement = document.getElementById("chessBoard");
 const startButton = document.getElementById("startButton");
@@ -87,7 +88,7 @@ function handleTravelButtonClick() {
   if (startPos && endPos) {
       path = chessBoard.getShortestPath(startPos, endPos);
       animateKnightPath(path);
-    //highlightPath();
+    highlightPath();
   } else {
     console.log("Start and end positions not set.");
   }
@@ -98,7 +99,7 @@ function highlightPath() {
     const [row, col] = path[i];
     const cell = getCell(row, col);
     cell.classList.add('pathCell');
-    cell.textContent = i + 1;
+    //cell.textContent = i + 1;
   }
 }
 
@@ -124,7 +125,7 @@ return document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
 
 function animateKnightPath(path) {
 const knightElement = document.querySelector('.fa-chess-knight');
-const delay = 500; // Delay between each step of the animation (in milliseconds)
+const delay = 600; // Delay between each step of the animation 
 let timeCount = 0;
 
 // Helper function to animate each step of the knight's movement
@@ -136,28 +137,23 @@ if (index >= path.length) {
 
 const [row, col] = path[index];
 const cell = getCell(row, col);
-const { top, left } = cell.getBoundingClientRect();
 
-// Calculate the translation values for the knight's movement
+// calculate the translation values for the knight's movement
 const cellWidth = cell.offsetWidth;
 const cellHeight = cell.offsetHeight;
 const translateX = col * cellWidth;
 const translateY = row * cellHeight;
 
-// Apply the translation transforms using CSS transitions
+// css transform
 knightElement.style.transition = `transform ${delay / 1000}s`;
 knightElement.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
-// Update the knight's position using CSS transitions after a delay
-setTimeout(() => {
-  knightElement.style.top = `${top}px`;
-  knightElement.style.left = `${left}px`;
 
-  // Wait for the specified delay before animating the next step
-  setTimeout(() => {
-    animateStep(index + 1);
-  }, delay);
+// delay before animating the next step
+setTimeout(() => {
+  animateStep(index + 1);
 }, delay);
+
 }
 
 // Start the animation from the first step

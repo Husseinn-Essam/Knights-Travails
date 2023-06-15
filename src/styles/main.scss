@@ -19,6 +19,7 @@ body {
   
   .board {
     display: grid;
+    position: relative;
     grid-template-columns: repeat(8,1fr);
     grid-template-rows: repeat(8,  1fr);
     border: 2px solid #000;
@@ -31,22 +32,22 @@ body {
   .cell {
     width: 70px;
     height: 70px;
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     font-size: 2rem;
     font-weight: 700;
     &:hover{
         transition: opacity 0.3s ease;
-        opacity: 0.5;    
+        opacity: 0.4;    
     }
     .fa-chess-knight{
       position: absolute;
       font-size: 50px;
       top: 0;
       left: 0;
-      transition: top 0.5s, left 0.5s; 
+      //transition: top 0.5s, left 0.5s; 
       z-index: 1;
     }
   }
