@@ -23,7 +23,7 @@ module.exports = {
     hot: true,
     compress: true,
     historyApiFallback: true,
-    noInfo: true, // Disable caching
+   
   },
   module: {
     rules: [

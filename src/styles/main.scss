@@ -31,6 +31,7 @@ body {
   .cell {
     width: 70px;
     height: 70px;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,6 +40,14 @@ body {
     &:hover{
         transition: opacity 0.3s ease;
         opacity: 0.5;    
+    }
+    .fa-chess-knight{
+      position: absolute;
+      font-size: 50px;
+      top: 0;
+      left: 0;
+      transition: top 0.5s, left 0.5s; 
+      z-index: 1;
     }
   }
   
@@ -55,4 +64,8 @@ body {
   .dark {
     background-color: #b58863;
   }
-  
+  .pathCell{
+    background-color: yellow;
+  }
+
+ 
