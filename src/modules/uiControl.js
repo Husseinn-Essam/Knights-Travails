@@ -99,9 +99,11 @@ function handleEndButtonClick() {
 
 function handleTravelButtonClick() {
   if (startPos && endPos) {
-      path = chessBoard.getShortestPath(startPos, endPos);
-      animateKnightPath(path,0);
-      highlightPath()  
+    isSettingEnd=false;
+    isSettingStart=false;
+    path = chessBoard.getShortestPath(startPos, endPos);
+    animateKnightPath(path,0);
+    highlightPath()  
     
   } else {
     console.log("Start and end positions not set.");

@@ -1,10 +1,16 @@
 @import './toolbar';
-
+@import './colors';
+*{
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 body {
     font-family: Arial, sans-serif;
-    background-color: #f1f1f1;
+    background-color: $color-background;
     margin: 0;
     padding: 0;
+    height: 100vh;
   }
   
   .container {
@@ -14,14 +20,15 @@ body {
     justify-content: center;
     height: 100vh;
     gap: 5rem;
+    overflow: scroll;
   }
 
   
   .board {
     display: grid;
     position: relative;
-    grid-template-columns: repeat(8,1fr);
-    grid-template-rows: repeat(8,  1fr);
+    grid-template-columns: repeat(8,minmax(40px,1fr));
+    grid-template-rows: repeat(8,  minmax(40px,1fr));
     border: 2px solid #000;
   }
   
@@ -52,19 +59,40 @@ body {
   }
   
 .startCell{
-    background-color: green;
+    background-color: $startCellBackgroundColor;
 }
 .endCell{
-    background-color: crimson;
+    background-color: $endCellBackgroundColor;
 }
 .light {
-  background-color: #f0d9b5;
+  background-color: $color-light-square;
 }
 
 .dark {
-  background-color: #b58863;
+  background-color: $color-dark-square;
 }
 .pathCell{
-  background-color: yellow;
+  background-color: $pathCellBackgroundColor;
 }
 
+@media (max-width: 768px) {
+  /* Adjustments for smaller screens */
+  .cell {
+    width: auto;
+    height: auto;
+    .fa-chess-knight{
+      font-size: 2rem;
+  
+    }
+  }
+  
+  .container{
+    flex-direction: column;
+    display: block;
+  }
+  
+  .board{
+    width: min-content;
+    margin: 0 auto;
+  }
+}
