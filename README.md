@@ -4,7 +4,7 @@
 
 Solves the knight's shortest path problem on a chessboard! 🐴
 
-This project implements breadth first search algorithm to find the shortest path for a knight to travel between two positions on a chessboard. It demonstrates the knight's movements following the rules of chess.
+This project implements **Breadth first search algorithm** to find the shortest path for a knight to travel between two positions on a chessboard. It demonstrates the knight's movements following the rules of chess.
 
 ## Demo
 
